@@ -1,0 +1,154 @@
+
+ server.c 
+
+	main函数主逻辑。	myhttp start 脚本 启动main    ./myhttp 80 1
+
+
+	1. 存储命令行参数     port = 80     是否允许上传 = 1
+
+	2. 借助port 创建socket
+
+	3. 写日志、启动守护进程 --- xinetd
+
+	4. 注册信号捕捉函数  SIGINT、SIGTERM （myhttp end）
+
+	5. accept启动监听  （修改线程属性， 启动线程 ， 线程回调函数 socket_contr --- xhttpd）
+
+	6. 一旦 accept所在循环结束。 myhttp 应该终止。  close  writelog
+
+ pub.c
+
+	1. 设置守护进程  setdaemon
+
+	2. 信号捕捉函数 signal1  catch_Signal
+
+	3. 处理 %20 东西 hex2dec、hexstr2dec、httpstr2stdstr
+
+	4. 获取文件名 getfilename 扩展名 get_file_ext 类型 getfiletype 内容 getfilecontent
+
+	5. 创建套接字 st = socket_create( socket/bind/listen )
+
+	6. 阻塞监听客户端请求 socket_accept(线程属性分离、 while（accept   pthread_create( , , , ) ) ); 
+
+	7. 日志 writelog： 年月日 时分秒 描述
+
+work.c
+
+	post方法相关。
+
+
+libevent库：
+
+	开源的、跨平台（Windows、Linux、macOS、Unix、Soloris...）。 源代码精简、功能完整。
+
+	
+	libevent库安装:
+
+		tar -zxvf libevent-2.0.21-stable.tar.gz 
+
+		cd libevent-2.0.21-stable 
+
+		./configure
+
+		make 
+
+		sudo make install
+
+
+	libevent库使用的一般方式：
+
+		1. struct event_base *base;
+
+		2. base = event_base_new();
+
+		3. 向base上安插事件   listen  signal ....
+
+		4. event_base_dispatch(base);
+
+		5. event_base_free(base);
+
+
+	libevent反应堆————libevent库设计的核心思想。
+
+		普通epoll ：  epoll_create 创建一颗监听红黑树。---- socket、bind、listen --> lfd  ---- 组织lfd对应结构体（EPOLLIN、void *（回调函数））
+
+				epoll_ctl() 将lfd 及对应结构体 添加到红黑树进行监听。  ----- epoll_wait() 监听。 --- 返回满足条件的个数。
+
+				---- 传出参数（结构体数组） ----- 回调：cfd = accpet() 满足EPOLLIN 对应的 客户端 --- 将cfd及对应结构体（回调函数）
+
+				---- 挂到监听红黑树  ---  启动 epoll_wait() 监听  --- 返回满足条件的个数。---- 传出参数（结构体数组） 
+
+				----- 回调： recv 客户端发送的小写字符串 ---- 转大写  --- send 回给客户。
+
+
+		epoll 反应堆：epoll_create 创建一颗监听红黑树。---- socket、bind、listen --> lfd ---- 组织lfd对应结构体（EPOLLIN、void *（回调函数）)
+
+				epoll_ctl() 将lfd 及对应结构体 添加到红黑树进行监听。  ----- epoll_wait() 监听。 --- 返回满足条件的个数。
+
+				---- 传出参数（结构体数组） ----- 回调：cfd = accpet() 满足EPOLLIN 对应的 客户端 
+
+				--- 将cfd及对应结构体（EPOLLIN、void *（回调函数--read）) ---- 挂到监听红黑树  ---  启动 epoll_wait() 监听 
+
+				--- 返回满足条件的个数。---- 传出参数（结构体数组）----- 回调： recv 客户端发送的小写字符串
+
+				--- cfd 从监听红黑树上摘下。---- 修改它的 EPOLLIN --> EPOLLOUT / 修改它的回调函数---write 
+
+				--- 再次将cfd 及对应结构体（EPOLLOUT、void *（回调函数--write）） ----- 挂到监听红黑树 ---  启动 epoll_wait() 监听 
+
+				--- 返回满足条件的个数。---- 传出参数（结构体数组）----- 回调： send ---- 转大写  --- send 回给客户。
+
+				--- cfd 从监听红黑树上摘下。---- 修改它的 EPOLLOUT --> EPOLLIN / 修改它的回调函数---read 
+
+				---- 挂到监听红黑树  ---  启动 epoll_wait() 监听 。
+
+【【GIT hub 注册】】
+
+
+				
+
+				
+ 
+		
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

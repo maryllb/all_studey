@@ -1,0 +1,186 @@
+
+HTTP协议：
+
+	请求服务器数据：
+
+		GET /文件或目录 HTTP/1.1 
+
+		协议头部分（可选）
+
+		\r\n (协议头结束)
+
+	服务器应答浏览器：
+
+		HTTP/1.1  200  OK
+
+		content-Type: 回写客户端的数据的类型。
+
+		content-Length：要么干脆不填。写的一定要正确！！！（可选项）  fcntl --- stat（&statbuf） statbuf.st_size 
+
+		\r\n (协议头结束)
+
+		数据。。。。
+
+
+		浏览器请求文件不存在：--- 404 错误页面  
+
+		HTTP/1.1  200 OK
+		
+		content-Type:text/html; charset=iso-8859-1
+		
+		\r\n
+
+<html>
+
+<head><title> not Found </title></head>
+		
+<body bgcolor="#cc99cc">
+
+<h4>404 Not Found</h4>
+
+	File not found. HA~HA~ HOHO~ 
+<hr>
+
+<address>
+	<a href="http://www.sina.com/">sina</a>
+</address>
+
+</body>
+
+</html>
+
+
+守护进程： xinetd
+
+	daemon，系统中的一个后台进程。周期性的执行某些任务，或者等待某个事件的发生。不会随用户的注销而退出。
+
+	创建守护进程： 不能是组长进程---fork子进程，父进程结束。 子进程 setsid（）创建新会话，脱离控制终端。 修订权限、文件描述符 重定向dup2。
+
+
+xinetd安装、配置。
+
+	1. 在线安装： sudo apt-get install xinetd   （aptitude 工具）
+
+	2. 离线安装：源码包。
+
+			./confirgure
+
+			make
+
+			sudo make install
+
+	3. 判断主机是否成功安装了 xinetd：	sudo aptitude show  xinetd.
+	
+
+	配置 xinetd 举例：  
+
+		写 xinetd.d/
+
+		xinetd 接收到客户端请求后，启动 zhangsan 的可执行文件。  ./zhangsan
+
+		1. 在 /etc/xinetd.d 创建一个名为 zhangsan 的文件 （它实质是一个配置文件）
+
+		2. 写入 配置内容， 名头： service zhangsan { 。。。。。}
+
+		3. server      = /home/itcast/zhangsan   （zhangsan可执行文件，应在/home/itcast/目录下。）
+
+		4. 配置选项 “=” 两边各自有且只有一个 空格 （tab可以多个，来实现对齐）
+
+		5. user   选项 设置为 当前主机的用户名。  nobody --> itheima  
+
+
+		写 /etc/service 文件
+
+		zhangsan	9527/TCP 		#注释
+		zhangsan	9527/UDP 		#注释
+
+
+分析 xhttpd 服务器 实现功能：
+
+	xinetd 在启动 xhttpd 可执行文件时，会给它的 argv[1] 传参---> 配置文件 server_args 的值。
+
+	相当于：  ./xhttpd  /home/itcast/dir/test1/lf.jgp
+
+
+	/home/itcast/
+
+	chdir();改变工作目录。  ---->  拼接 访问文件的 绝对路径来进行访问。
+
+
+	读 http 协议头，获取浏览器 请求的文件名。  
+
+	标准输入中读取。 fgets 函数 。
+
+	解析 http协议头 -->  得到请求的文件名
+
+
+	判断文件是否存在：
+
+		存在：
+			判断待请求文件是什么类型：
+
+				目录：
+
+					返回目录列表。	—————— 递归遍历目录，获取文件数量。--> 获取文件名。
+
+				文件：
+
+					回写http协议头
+
+					回写 文件内容 
+		不存在：
+
+			回写 http 协议头
+
+			回写 类型 *.html : text/html; charset=iso-8859-1
+
+			回写 错误页面 404 <html> 页面
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
