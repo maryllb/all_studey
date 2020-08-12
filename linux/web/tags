@@ -1,0 +1,22 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+FORMAT_DATE	./src/xhttpd_send.c	10;"	d	file:
+N	./src/main.c	15;"	d	file:
+N	./src/xhttpd_othre.c	7;"	d	file:
+PROTOCOL	./src/xhttpd_send.c	8;"	d	file:
+SERVER_NAME	./src/xhttpd_send.c	7;"	d	file:
+SERVER_URL	./src/xhttpd_send.c	9;"	d	file:
+file_infos	./src/xhttpd_othre.c	/^void file_infos(char *dir, char *name)$/;"	f
+get_mime_type	./src/get_type.c	/^char *get_mime_type(char *name)$/;"	f
+hexit	./src/xhttpd_node.c	/^int hexit(char c)$/;"	f
+log	./src/xhttpd_othre.c	8;"	d	file:
+main	./src/main.c	/^int main(int argc,char *argv[])$/;"	f
+send_error	./src/xhttpd_send.c	/^void send_error(int status, char* title, char* extra_header, char* text)$/;"	f
+send_headers	./src/xhttpd_send.c	/^void send_headers(int status, char* title, char* extra_header, char* mime_type, off_t length, time_t mod)$/;"	f
+strdecode	./src/xhttpd_node.c	/^void strdecode(char *to, char *from)$/;"	f
+strencode	./src/xhttpd_node.c	/^void strencode(char* to, size_t tosize, const char* from)$/;"	f
+write_log	./src/xhttpd_othre.c	/^void write_log(char *filename,int line, char* str)$/;"	f

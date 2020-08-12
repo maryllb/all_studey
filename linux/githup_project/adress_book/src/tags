@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Change	./options.c	/^void Change(link l)$/;"	f
+Del	./options.c	/^void Del(link l)$/;"	f
+DisPlay	./other.c	/^extern void DisPlay(Node* p)$/;"	f
+Enter	./options.c	/^void Enter(link l)\/*输入信息*\/$/;"	f
+LoadToFile	./options.c	/^void LoadToFile(link l)$/;"	f
+Menu_select	./menu.c	/^int Menu_select(int mode)$/;"	f
+SaveToFile	./options.c	/^void SaveToFile(link l)$/;"	f
+SearchName	./other.c	/^extern int SearchName(link l, char* name)$/;"	f
+SearchShow	./options.c	/^int SearchShow(link l)$/;"	f
+ShowAll	./options.c	/^void ShowAll(link l) $/;"	f
+StringInput	./other.c	/^extern void StringInput(char* t, int lens, char* notice)$/;"	f
+main	./main.c	/^int main()$/;"	f
